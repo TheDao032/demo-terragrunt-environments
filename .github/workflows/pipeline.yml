@@ -1,0 +1,43 @@
+name: Root pipeline
+
+on:
+  push:
+    branches:
+      - dev
+      - uat
+      - prod
+      - main
+    tags:
+      - "*"
+
+env:
+  # ENV_NAME: ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+  CLOUD_ACTION: "gcp"
+  CLOUD_NAME: "google-cloud-platform"
+
+jobs:
+  plan:
+    name: Plan infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Plan GCP infrastructure
+        run: |
+          echo "Planning infrastructure for ${{ env.CLOUD_NAME }}"
+
+  #     - name: Plan GCP infrastructure
+  #       uses: ./.github/actions/gcp/build.yml
+  #       with:
+  #         CLOUD: "${{ env.CLOUD_NAME }}"
+  #         ENV: "${{ env.ENV_NAME }}"
+  #
+  # apply:
+  #   name: Apply infrastructure
+  #   needs: [ plan ]
+  #   uses: ./.github/workflows/gcp/deploy.yml
+  #   with:
+  #     CLOUD: "${{ env.CLOUD_NAME }}"
+  #     ENV: "${{ env.ENV_NAME }}"
+  #   secrets: inherit
