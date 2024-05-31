@@ -18,6 +18,7 @@ RUN wget https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGR
     mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
 
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 RUN curl https://sdk.cloud.google.com > install.sh && bash install.sh --disable-prompts
 
 WORKDIR /app
