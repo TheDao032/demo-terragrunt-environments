@@ -11,6 +11,8 @@ on:
       - "*"
 
 env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
   ENV_NAME: ${{ github.ref_name }}
   CLOUD_ACTION: "gcp"
   CLOUD_NAME: "google-cloud-platform"
@@ -23,15 +25,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Plan GCP infrastructure
+      - name: Check GCP infrastructure
         run: |
-          echo "Planning infrastructure for ${{ env.CLOUD_NAME }} with environment ${{ env.ENV_NAME }}"
+          echo "Planning infrastructure for ${{ env.CLOUD_NAME }} in environment ${{ env.ENV_NAME }}"
 
-  #     - name: Plan GCP infrastructure
-  #       uses: ./.github/actions/gcp/build.yml
-  #       with:
-  #         CLOUD: "${{ env.CLOUD_NAME }}"
-  #         ENV: "${{ env.ENV_NAME }}"
+      - name: Plan GCP infrastructure
+        uses: ./.github/actions/gcp/build.yml
+        with:
+          CLOUD: "${{ env.CLOUD_NAME }}"
+          ENV: "${{ env.ENV_NAME }}"
   #
   # apply:
   #   name: Apply infrastructure
