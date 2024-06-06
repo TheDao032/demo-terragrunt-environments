@@ -15,8 +15,8 @@ defaults:
     shell: bash
 
 env:
-  IMAGE_NAME: ${{ github.repository }}
-  ENV_NAME: ${{ github.ref_name }}
+  IMAGE: ${{ github.repository }}
+  ENV: ${{ github.ref_name }}
   CLOUD_ACTION: "gcp"
   CLOUD_NAME: "google-cloud-platform"
 
@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Set lowercase repository name
         id: lowercase_name
-        run: echo "::set-output name=repo_name::$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+        run: echo "::set-output name=repo_name::$(echo '${{ env.IMAGE }}' | tr '[:upper:]' '[:lower:]')"
 
   plan:
     name: Plan infrastructure
@@ -46,4 +46,8 @@ jobs:
         uses: ./.github/actions/gcp/build
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
-          ENV: "${{ env.ENV_NAME }}"
+          ENV: "${{ env.ENV }}"
+          PROJECT_ID: "${{ secrets.PROJECT_ID }}"
+          POOL: "${{ env.POOL }}"
+          PROVIDER: "${{ env.PROVIDER }}"
+          SERVICE_ACCOUNT: "${{ env.SERVICE_ACCOUNT }}"
