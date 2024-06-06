@@ -51,3 +51,4 @@ jobs:
           POOL: "${{ env.POOL }}"
           PROVIDER: "${{ env.PROVIDER }}"
           SERVICE_ACCOUNT: "${{ env.SERVICE_ACCOUNT }}"
+          GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
