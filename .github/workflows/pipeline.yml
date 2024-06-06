@@ -38,6 +38,9 @@ jobs:
     container: ${{ vars.REGISTRY }}/${{ needs.convert-name.outputs.lowercase_name }}
     environment:
       name: gcp-${{ github.ref_name }}
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
