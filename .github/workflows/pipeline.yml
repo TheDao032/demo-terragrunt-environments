@@ -16,7 +16,7 @@ defaults:
 
 env:
   REGISTRY: ghcr.io/thedao032
-  IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}
+  IMAGE_NAME: "${{ env.REGISTRY }}/${{ github.repository }}"
   ENV_NAME: ${{ github.ref_name }}
   CLOUD_ACTION: "gcp"
   CLOUD_NAME: "google-cloud-platform"
