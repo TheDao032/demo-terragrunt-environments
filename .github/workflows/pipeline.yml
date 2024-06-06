@@ -24,7 +24,7 @@ jobs:
   plan:
     name: Plan infrastructure
     runs-on: ubuntu-latest
-    container: ${{ vars.REGISTRY }}/${{ github.repository }}
+    container: ${{ vars.REGISTRY }}/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
     environment:
       name: ${{ github.ref_name }}
     steps:
