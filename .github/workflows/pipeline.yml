@@ -6,13 +6,17 @@ on:
       - dev
       - uat
       - prod
-      - main
+      # - main
     tags:
       - "*"
 
+defaults:
+  run:
+    shell: bash
+
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  REGISTRY: ghcr.io/thedao032
+  IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}
   ENV_NAME: ${{ github.ref_name }}
   CLOUD_ACTION: "gcp"
   CLOUD_NAME: "google-cloud-platform"
@@ -21,25 +25,13 @@ jobs:
   plan:
     name: Plan infrastructure
     runs-on: ubuntu-latest
+    container: ${{ env.IMAGE_NAME }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check GCP infrastructure
-        run: |
-          echo "Planning infrastructure for ${{ env.CLOUD_NAME }} in environment ${{ env.ENV_NAME }}"
-
       - name: Plan GCP infrastructure
-        uses: ./.github/actions/gcp/build.yml
+        uses: ./.github/actions/gcp/build
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
           ENV: "${{ env.ENV_NAME }}"
-  #
-  # apply:
-  #   name: Apply infrastructure
-  #   needs: [ plan ]
-  #   uses: ./.github/workflows/gcp/deploy.yml
-  #   with:
-  #     CLOUD: "${{ env.CLOUD_NAME }}"
-  #     ENV: "${{ env.ENV_NAME }}"
-  #   secrets: inherit
