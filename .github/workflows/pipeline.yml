@@ -21,10 +21,21 @@ env:
   CLOUD_NAME: "google-cloud-platform"
 
 jobs:
+  convert-name:
+    name: Convert repository name to lowercase
+    runs-on: ubuntu-latest
+    outputs:
+      lowercase_name: ${{ steps.lowercase_name.outputs.repo_name }}
+    steps:
+      - name: Set lowercase repository name
+        id: lowercase_name
+        run: echo "::set-output name=repo_name::$(echo '${{ github.repository }}'
+
   plan:
     name: Plan infrastructure
     runs-on: ubuntu-latest
-    container: ${{ vars.REGISTRY }}/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+    needs: convert-name
+    container: ${{ vars.REGISTRY }}/${{ needs.convert-name.outputs.lowercase_name }}
     environment:
       name: ${{ github.ref_name }}
     steps:
