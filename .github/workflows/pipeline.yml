@@ -15,7 +15,6 @@ defaults:
     shell: bash
 
 env:
-  REGISTRY: ghcr.io/thedao032
   IMAGE_NAME: ${{ github.repository }}
   ENV_NAME: ${{ github.ref_name }}
   CLOUD_ACTION: "gcp"
@@ -25,9 +24,9 @@ jobs:
   plan:
     name: Plan infrastructure
     runs-on: ubuntu-latest
-    container: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    container: ${{ vars.REGISTRY }}/${{ github.repository }}
     environment:
-      name: ${{ env.ENV_NAME }}
+      name: ${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
