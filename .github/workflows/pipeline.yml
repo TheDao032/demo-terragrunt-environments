@@ -37,7 +37,7 @@ jobs:
     needs: convert-name
     container: ${{ vars.REGISTRY }}/${{ needs.convert-name.outputs.lowercase_name }}
     environment:
-      name: ${{ github.ref_name }}
+      name: gcp-${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
