@@ -4,22 +4,22 @@ description: GCP Plan
 inputs:
   CLOUD:
     required: true
-    description: GCP Plan
+    description: GCP Cloud
   ENV:
     required: true
-    description: GCP Plan
+    description: GCP Env
   PROJECT_ID:
     required: true
-    description: GCP Plan
+    description: GCP Project ID
   POOL:
     required: true
-    description: GCP Plan
+    description: GCP Pool
   PROVIDER:
     required: true
-    description: GCP Plan
+    description: GCP Provider
   SERVICE_ACCOUNT:
     required: true
-    description: GCP Plan
+    description: GCP Service Account
 
 runs:
   using: "composite"
@@ -27,6 +27,7 @@ runs:
     - id: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
+        project_id: '${{ inputs.PROJECT_ID }}'
         workload_identity_provider: 'projects/${{ inputs.PROJECT_ID }}/locations/global/workloadIdentityPools/${{ inputs.POOL }}/providers/${{ inputs.PROVIDER }}'
         service_account: '${{ inputs.SERVICE_ACCOUNT }}'
 
