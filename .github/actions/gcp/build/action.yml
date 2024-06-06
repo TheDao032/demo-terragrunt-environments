@@ -20,6 +20,9 @@ inputs:
   SERVICE_ACCOUNT:
     required: true
     description: GCP Service Account
+  GOOGLE_CREDENTIALS:
+    required: true
+    description: GCP CREDENTIALS
 
 runs:
   using: "composite"
@@ -27,9 +30,10 @@ runs:
     - id: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
-        project_id: '${{ inputs.PROJECT_ID }}'
-        workload_identity_provider: 'projects/${{ inputs.PROJECT_ID }}/locations/global/workloadIdentityPools/${{ inputs.POOL }}/providers/${{ inputs.PROVIDER }}'
-        service_account: '${{ inputs.SERVICE_ACCOUNT }}'
+        credentials_json: ${{ inputs.GOOGLE_CREDENTIALS }}
+        # project_id: '${{ inputs.PROJECT_ID }}'
+        # workload_identity_provider: 'projects/${{ inputs.PROJECT_ID }}/locations/global/workloadIdentityPools/${{ inputs.POOL }}/providers/${{ inputs.PROVIDER }}'
+        # service_account: '${{ inputs.SERVICE_ACCOUNT }}'
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v2'
