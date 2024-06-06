@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Set lowercase repository name
         id: lowercase_name
-        run: echo "::set-output name=repo_name::$(echo '${{ github.repository }}'
+        run: echo "::set-output name=repo_name::$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
 
   plan:
     name: Plan infrastructure
