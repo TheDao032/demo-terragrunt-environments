@@ -4,8 +4,8 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "service" {
-  config_path = "../service"
+dependency "project-service" {
+  config_path = "../project-service"
 }
 
 dependency "vpc" {
@@ -13,8 +13,8 @@ dependency "vpc" {
 }
 
 terraform {
-  source = "../../../../../demo-terraform-modules//google-cloud-platform/kubernetes-engine"
-  #source = "git@github.com:Inogen-Digital-Health/terraform-modules.git//azure/vnet?ref=master"
+  # source = "../../../../../demo-terraform-modules//google-cloud-platform/kubernetes-engine"
+  source = "git@github.com:TheDao032/demo-terraform-modules//google-cloud-platform/kubernetes-engine?ref=${local.environment}"
 }
 
 inputs = {
