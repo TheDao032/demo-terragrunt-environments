@@ -51,11 +51,13 @@ jobs:
           apt-get update
           apt-get install -y git openssh-client openssh-server
 
-      - name: Set up SSH
+      - name: Start SSH agent and add key
         run: |
+          eval "$(ssh-agent -s)"
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-add ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Plan GCP infrastructure
