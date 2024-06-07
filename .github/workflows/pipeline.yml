@@ -49,7 +49,7 @@ jobs:
       - name: Install git and ssh
         run: |
           apt-get update
-          apt-get install -y git openssh-client
+          apt-get install -y git openssh-client openssh-server
 
       - name: Set up SSH
         run: |
