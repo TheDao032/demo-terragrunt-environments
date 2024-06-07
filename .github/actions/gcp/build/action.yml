@@ -8,6 +8,9 @@ inputs:
   ENV:
     required: true
     description: GCP Env
+  REGION:
+    required: true
+    description: GCP Region
   PROJECT_ID:
     required: true
     description: GCP Project ID

@@ -47,6 +47,7 @@ jobs:
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
           ENV: "${{ env.ENV }}"
+          REGION: "${{ vars.REGION }}"
           PROJECT_ID: "${{ secrets.PROJECT_ID }}"
           POOL: "${{ env.POOL }}"
           PROVIDER: "${{ env.PROVIDER }}"
