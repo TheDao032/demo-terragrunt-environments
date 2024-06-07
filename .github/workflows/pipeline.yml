@@ -46,12 +46,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Set env
-      #   run: |
-      #     echo "PROJECT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-      #     echo "PROJECT_ID=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-      #     echo "BUCKET=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+      - name: Install git and ssh
+        run: |
+          apt-get update
+          apt-get install -y git openssh-client
 
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Plan GCP infrastructure
         uses: ./.github/actions/gcp/build
