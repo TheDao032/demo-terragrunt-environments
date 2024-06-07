@@ -46,17 +46,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install git and ssh
-        run: |
-          apt-get update
-          apt-get install -y git openssh-client openssh-server
-
       - name: Start SSH agent and add key
         run: |
           eval "$(ssh-agent -s)"
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
           chmod 600 ~/.ssh/id_rsa
+          chmod 644 ~/.ssh/id_rsa.pub
           ssh-add ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
