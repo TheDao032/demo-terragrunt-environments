@@ -9,7 +9,7 @@ include {
 
 terraform {
   # source = "../../../../../demo-terraform-modules//google-cloud-platform/project-service"
-  source = "git::git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/project-service?ref=${local.environment}"
+  source = "git::ssh:git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/project-service?ref=${local.environment}"
 }
 
 inputs = {}
