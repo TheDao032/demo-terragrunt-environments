@@ -38,9 +38,20 @@ jobs:
     container: ${{ vars.REGISTRY }}/${{ needs.convert-name.outputs.lowercase_name }}
     environment:
       name: gcp-${{ github.ref_name }}
+    env:
+      PROJECT: ${{ secrets.PROJECT }}
+      PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      BUCKET: ${{ vars.BUCKET }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # - name: Set env
+      #   run: |
+      #     echo "PROJECT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+      #     echo "PROJECT_ID=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+      #     echo "BUCKET=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+
 
       - name: Plan GCP infrastructure
         uses: ./.github/actions/gcp/build
