@@ -59,7 +59,7 @@ jobs:
 
       - name: Build GCP infrastructure
         id: gcp-build
-        uses: ./.github/actions/${{ env.CLOUD_ACTION }}/build
+        uses: ./.github/actions/gcp/build
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
           ENV: "${{ env.ENV }}"
