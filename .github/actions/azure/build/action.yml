@@ -1,40 +1,32 @@
-name: Build
-description: GCP Build
+name: Azure Build
+description: Azure Build
 
 inputs:
   CLOUD:
     required: true
-    description: GCP Cloud
+    description: Azure Cloud
   ENV:
     required: true
-    description: GCP Environment
+    description: Azure Environment
   REGION:
     required: true
-    description: GCP Region
+    description: Azure Region
 
 runs:
   using: "composite"
   steps:
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v2'
+    - name: Log in with Azure
+      id: azure-login
+      uses: azure/login@v2.1.1
       with:
-        version: '>= 363.0.0'
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v2'
-      with:
-        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-        # project_id: '${{ inputs.PROJECT_ID }}'
-        # workload_identity_provider: 'projects/${{ inputs.PROJECT_ID }}/locations/global/workloadIdentityPools/${{ inputs.POOL }}/providers/${{ inputs.PROVIDER }}'
-        # service_account: '${{ inputs.SERVICE_ACCOUNT }}'
-
-    - name: GCP Setup
-      id: gcp-setup
+    - name: Azure Setup
+      id: azure-setup
       shell: bash
       run: |
         mkdir -p /home/runner/work/_temp/_github_workflow
-        mv terragrunt.gcp.hcl terragrunt.hcl
-        gcloud info
+        mv terragrunt.azure.hcl terragrunt.hcl
 
     - uses: webfactory/ssh-agent@v0.7.0
       with:
