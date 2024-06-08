@@ -43,8 +43,8 @@ dependency "vpc" {
 }
 
 terraform {
-  source = "../../../../../demo-terraform-modules//google-cloud-platform/kubernetes-engine"
-  # source = "git::git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/kubernetes-engine?ref=${local.environment}"
+  # source = "../../../../../demo-terraform-modules//google-cloud-platform/kubernetes-engine"
+  source = "git::git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/kubernetes-engine?ref=${local.environment}"
 }
 
 inputs = {

@@ -13,8 +13,8 @@ dependency "project-service" {
 }
 
 terraform {
-  source = "../../../../../demo-terraform-modules//google-cloud-platform/vpc"
-  # source = "git::git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/vpc?ref=${local.environment}"
+  # source = "../../../../../demo-terraform-modules//google-cloud-platform/vpc"
+  source = "git::git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/vpc?ref=${local.environment}"
 }
 
 inputs = {}
