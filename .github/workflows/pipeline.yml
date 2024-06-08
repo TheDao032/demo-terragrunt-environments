@@ -29,9 +29,7 @@ defaults:
 env:
   IMAGE: ${{ github.repository }}
   ENV: ${{ github.ref_name }}
-  # CLOUD_ACTION: "gcp"
   # CLOUD_NAME: "google-cloud-platform"
-  CLOUD_ACTION: "azure"
   CLOUD_NAME: "azure"
 
 jobs:
@@ -98,7 +96,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Azure infrastructure
-        uses: ./.github/actions/${{ env.CLOUD_ACTION }}/build
+        uses: ./.github/actions/azure/build
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
           ENV: "${{ env.ENV }}"
