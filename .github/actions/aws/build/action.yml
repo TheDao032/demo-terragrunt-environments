@@ -2,6 +2,9 @@ name: Aws Build
 description: Aws Build
 
 inputs:
+  ACCOUNT_ID:
+    required: true
+    description: Aws Account ID
   CLOUD:
     required: true
     description: Aws Cloud
@@ -21,9 +24,9 @@ runs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
-        aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ inputs.AWS_ACCESS_SECRET_KEY }}
+        aws-region: ${{ inputs.REGION }}
         role-to-assume: arn:aws:iam::${{ inputs.ACCOUNT_ID }}:role/${{ inputs.ENV }}-access
         role-duration-seconds: 3600
         role-session-name: github
