@@ -46,16 +46,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Start SSH agent and add key
-        run: |
-          eval "$(ssh-agent -s)"
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
-          chmod 600 ~/.ssh/id_rsa
-          chmod 644 ~/.ssh/id_rsa.pub
-          ssh-add ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: create directory to pass ssh-agent socket
+        run: "mkdir -p /home/runner/work/_temp/_github_workflow"
+
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-auth-sock: "/home/runner/work/_temp/_github_workflow/ssh-agent.sock"
+
+      # - name: Start SSH agent and add key
+      #   run: |
+      #     eval "$(ssh-agent -s)"
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_rsa.pub
+      #     chmod 600 ~/.ssh/id_rsa
+      #     chmod 644 ~/.ssh/id_rsa.pub
+      #     ssh-add ~/.ssh/id_rsa
+      #     ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Plan GCP infrastructure
         uses: ./.github/actions/gcp/build
