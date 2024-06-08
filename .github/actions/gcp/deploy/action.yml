@@ -8,9 +8,15 @@ inputs:
   ENV:
     required: true
     description: GCP Environment
+  REGION:
+    required: true
+    description: GCP Region
   GOOGLE_CREDENTIALS:
     required: true
     description: GCP CREDENTIALS
+  SSH_PRIVATE_KEY:
+    required: true
+    description: SSH Private Key
 
 runs:
   using: "composite"
@@ -38,7 +44,7 @@ runs:
 
     - uses: webfactory/ssh-agent@v0.7.0
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ inputs.SSH_PRIVATE_KEY }}
         ssh-auth-sock: "/home/runner/work/_temp/_github_workflow/ssh-agent.sock"
 
     - name: Deploy
