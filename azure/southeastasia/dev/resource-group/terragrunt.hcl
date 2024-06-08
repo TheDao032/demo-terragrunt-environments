@@ -9,7 +9,7 @@ include {
 
 terraform {
   # source = "../../../../../inogen-terraform-modules//azure/resource-group"
-  source = "git::git@github.com:Inogen-Digital-Health/terraform-modules.git//azure/resource-group?ref=${local.environment}"
+  source = "git::git@github.com:TheDao032/demo-terraform-modules.git//azure/resource-group?ref=${local.environment}"
 }
 
 inputs = {
