@@ -29,8 +29,10 @@ defaults:
 env:
   IMAGE: ${{ github.repository }}
   ENV: ${{ github.ref_name }}
-  CLOUD_ACTION: "gcp"
-  CLOUD_NAME: "google-cloud-platform"
+  # CLOUD_ACTION: "gcp"
+  # CLOUD_NAME: "google-cloud-platform"
+  CLOUD_ACTION: "azure"
+  CLOUD_NAME: "azure"
 
 jobs:
   convert-name:
@@ -43,38 +45,38 @@ jobs:
         id: lowercase_name
         run: echo "::set-output name=repo_name::$(echo '${{ env.IMAGE }}' | tr '[:upper:]' '[:lower:]')"
 
-  gcp:
-    name: GCP infrastructure
-    runs-on: ubuntu-latest
-    needs: convert-name
-    container: ${{ vars.REGISTRY }}/${{ needs.convert-name.outputs.lowercase_name }}
-    environment:
-      name: gcp-${{ github.ref_name }}
-    env:
-      PROJECT: ${{ secrets.PROJECT }}
-      PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      BUCKET: ${{ vars.BUCKET }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build GCP infrastructure
-        id: gcp-build
-        uses: ./.github/actions/gcp/build
-        with:
-          CLOUD: "${{ env.CLOUD_NAME }}"
-          ENV: "${{ env.ENV }}"
-          REGION: "${{ vars.REGION }}"
-          GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
-          SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
-
-      # - name: Deploy GCP infrastructure
-      #   id: gcp-deploy
-      #   uses: ./.github/actions/gcp/deploy
-      #   with:
-      #     CLOUD: "${{ env.CLOUD_NAME }}"
-      #     ENV: "${{ env.ENV }}"
-      #     REGION: "${{ vars.REGION }}"
+  # gcp:
+  #   name: GCP infrastructure
+  #   runs-on: ubuntu-latest
+  #   needs: convert-name
+  #   container: ${{ vars.REGISTRY }}/${{ needs.convert-name.outputs.lowercase_name }}
+  #   environment:
+  #     name: gcp-${{ github.ref_name }}
+  #   env:
+  #     PROJECT: ${{ secrets.PROJECT }}
+  #     PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  #     BUCKET: ${{ vars.BUCKET }}
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: Build GCP infrastructure
+  #       id: gcp-build
+  #       uses: ./.github/actions/${{ env.CLOUD_ACTION }}/build
+  #       with:
+  #         CLOUD: "${{ env.CLOUD_NAME }}"
+  #         ENV: "${{ env.ENV }}"
+  #         REGION: "${{ vars.REGION }}"
+  #         GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
+  #         SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
+  #
+  #     - name: Deploy GCP infrastructure
+  #       id: gcp-deploy
+  #       uses: ./.github/actions/gcp/deploy
+  #       with:
+  #         CLOUD: "${{ env.CLOUD_NAME }}"
+  #         ENV: "${{ env.ENV }}"
+  #         REGION: "${{ vars.REGION }}"
 
   azure:
     name: Azure infrastructure
@@ -96,7 +98,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Azure infrastructure
-        uses: ./.github/actions/azure/build
+        uses: ./.github/actions/${{ env.CLOUD_ACTION }}/build
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
           ENV: "${{ env.ENV }}"
