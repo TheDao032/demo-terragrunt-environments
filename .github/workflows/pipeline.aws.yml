@@ -57,7 +57,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build GCP infrastructure
+      - name: Build AWS infrastructure
         uses: ./.github/actions/aws/build
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
