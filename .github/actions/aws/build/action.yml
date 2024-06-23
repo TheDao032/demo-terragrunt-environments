@@ -5,6 +5,12 @@ inputs:
   ACCOUNT_ID:
     required: true
     description: Aws Account ID
+  AWS_ACCESS_KEY_ID:
+    required: true
+    description: Aws Access Key ID
+  AWS_ACCESS_SECRET_KEY:
+    required: true
+    description: Aws Access Secret Key
   CLOUD:
     required: true
     description: Aws Cloud
