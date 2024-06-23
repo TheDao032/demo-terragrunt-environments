@@ -20,6 +20,9 @@ inputs:
   REGION:
     required: true
     description: Aws Region
+  SSH_PRIVATE_KEY:
+    required: true
+    description: SSH Private Key
 
 runs:
   using: "composite"
