@@ -8,8 +8,8 @@ include {
 }
 
 terraform {
-  # source = "../../../../../demo-terraform-modules//google-cloud-platform/project-service"
-  source = "git::git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/project-service?ref=${local.environment}"
+  # source = "../../../../../demo-terraform-modules//amazon-web-service/vpc"
+  source = "git::git@github.com:TheDao032/demo-terraform-modules.git//amazon-web-service/vpc?ref=${local.environment}"
 }
 
 inputs = {}

@@ -3,7 +3,7 @@ FROM ubuntu:latest
 ENV TERRAFORM_VERSION 1.8.4
 ENV TERRAGRUNT_VERSION 0.58.12
 
-RUN apt update -y && apt install -y unzip wget curl python3 python3-pip apt-transport-https ca-certificates gnupg && \
+RUN apt update -y && apt install -y unzip wget curl python3 python3-pip apt-transport-https ca-certificates gnupg git openssh-client && \
     pip3 install awscli --break-system-packages
 
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \

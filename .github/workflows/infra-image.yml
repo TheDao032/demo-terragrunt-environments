@@ -9,6 +9,7 @@ on:
       - prod
     paths:
       - 'Dockerfile'
+      - '.github/workflows/infra-image.yml'
 
 env:
   REGISTRY: ghcr.io
@@ -53,6 +54,8 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.CR_PAT }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation

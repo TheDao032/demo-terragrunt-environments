@@ -5,17 +5,19 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 locals {
-  # Automatically load project variables
-  project_vars = read_terragrunt_config(find_in_parent_folders("project.hcl"))
-  project      = local.project_vars.locals.project
-
   # Automatically load region-level variables
   region_vars = read_terragrunt_config(find_in_parent_folders("region.hcl"))
-  region      = local.region_vars.locals.region
+  region      = local.region_vars.locals.aws_region
 
   # Automatically load environment-level variables
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
   environment      = local.environment_vars.locals.environment
+
+  # Extract the variables we need for easy access
+  account_name = local.environment_vars.locals.aws_account_name
+  account_id   = local.environment_vars.locals.aws_account_id
+  aws_region   = local.region_vars.locals.aws_region
+
 }
 
 # Generate Azure providers
@@ -25,13 +27,17 @@ generate "versions" {
   contents  = <<EOF
     terraform {
       required_providers {
-        google = {
-          source  = "hashicorp/google"
-          version = "~> 5.30.0"
+        helm = {
+          source  = "hashicorp/helm"
+          version = "2.12.0"
         }
-        google-beta = {
-          source  = "hashicorp/google-beta"
-          version = "~> 5.30.0"
+        kubernetes = {
+          source  = "hashicorp/kubernetes"
+          version = "2.25.0"
+        }
+        kubectl = {
+          source  = "gavinbunney/kubectl"
+          version = ">= 1.7.0"
         }
       }
     }
@@ -39,33 +45,23 @@ EOF
 }
 
 generate "providers" {
-  path      = "provider.tf"
+  path = "provider.tf"
   if_exists = "overwrite_terragrunt"
-  contents  = <<EOF
-    provider "google" {
-      project = "${local.project}"
-      region  = "${local.region}"
-    }
-
-    provider "google-beta" {
-      project = "${local.project}"
-      region  = "${local.region}"
-    }
+  contents = <<EOF
+provider "aws" {
+  region = "${local.aws_region}"
+}
 EOF
 }
 
 remote_state {
-  backend = "gcs"
+  backend = "s3"
   config = {
-    project  = "infrastructure"
-    location = "asia-southeast1"
-    bucket   = "terragruntbackend"
-    prefix   = "${path_relative_to_include()}/terraform.tfstate"
-
-    gcs_bucket_labels = {
-      owner = "terragrunt"
-      name  = "terraform_state_storage"
-    }
+    encrypt = true
+    bucket = "infra-${local.account_name}"
+    key = "${path_relative_to_include()}/terraform.tfstate"
+    region = "${local.aws_region}"
+    // dynamodb_table = "thedao-${local.account_name}-locks"
   }
 
   generate = {
@@ -83,7 +79,6 @@ remote_state {
 # Configure root level variables that all resources can inherit. This is especially helpful with multi-account configs
 # where terraform_remote_state data sources are placed directly into the modules.
 inputs = merge(
-  local.project_vars.locals,
   local.region_vars.locals,
   local.environment_vars.locals,
 )

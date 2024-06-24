@@ -7,13 +7,14 @@ include {
   path = find_in_parent_folders()
 }
 
-dependency "service" {
-  config_path = "../service"
+dependency "project-service" {
+  config_path = "../project-service"
+  skip_outputs = true
 }
 
 terraform {
   # source = "../../../../../demo-terraform-modules//google-cloud-platform/vpc"
-  source = "git@github.com:TheDao032/demo-terraform-modules.git//azure/vpc?ref=${local.environment}"
+  source = "git::git@github.com:TheDao032/demo-terraform-modules.git//google-cloud-platform/vpc?ref=${local.environment}"
 }
 
 inputs = {}
