@@ -48,9 +48,9 @@ generate "providers" {
   path = "provider.tf"
   if_exists = "overwrite_terragrunt"
   contents = <<EOF
-    provider "aws" {
-      region = "${local.aws_region}"
-    }
+provider "aws" {
+  region = "${local.aws_region}"
+}
 EOF
 }
 
@@ -61,6 +61,7 @@ remote_state {
     bucket = "infra-${local.account_name}"
     key = "${path_relative_to_include()}/terraform.tfstate"
     region = "${local.aws_region}"
+    // dynamodb_table = "thedao-${local.account_name}-locks"
   }
 
   generate = {
