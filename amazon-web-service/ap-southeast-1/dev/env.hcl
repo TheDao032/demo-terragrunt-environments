@@ -1,7 +1,7 @@
 # Set common variables for the environment. This is automatically pulled in in the root terragrunt.hcl configuration to
 # feed forward to the child modules.
 locals {
-  account_name   = get_env("ACCOUNT_NAME")
+  aws_account_name   = get_env("ACCOUNT_NAME")
   aws_account_id = get_env("ACCOUNT_ID")
 
   environment = "dev"

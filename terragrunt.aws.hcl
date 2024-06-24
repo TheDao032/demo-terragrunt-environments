@@ -7,14 +7,14 @@
 locals {
   # Automatically load region-level variables
   region_vars = read_terragrunt_config(find_in_parent_folders("region.hcl"))
-  region      = local.region_vars.locals.region
+  region      = local.region_vars.locals.aws_region
 
   # Automatically load environment-level variables
   environment_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
   environment      = local.environment_vars.locals.environment
 
   # Extract the variables we need for easy access
-  account_name = local.environment_vars.locals.account_name
+  account_name = local.environment_vars.locals.aws_account_name
   account_id   = local.environment_vars.locals.aws_account_id
   aws_region   = local.region_vars.locals.aws_region
 
