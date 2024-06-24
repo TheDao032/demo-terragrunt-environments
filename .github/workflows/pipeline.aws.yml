@@ -66,3 +66,14 @@ jobs:
           AWS_ACCESS_SECRET_KEY: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
           ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
           SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
+
+      - name: Deploy AWS infrastructure
+        uses: ./.github/actions/aws/deploy
+        with:
+          CLOUD: "${{ env.CLOUD_NAME }}"
+          ENV: "${{ env.ENV }}"
+          REGION: "${{ vars.REGION }}"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_ACCESS_SECRET_KEY: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
+          ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+          SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
