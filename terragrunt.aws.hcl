@@ -59,7 +59,7 @@ remote_state {
   config = {
     encrypt = true
     bucket = "infra-${local.account_name}"
-    key = "${path_relatiive_to_include()}/terraform.tfstate"
+    key = "${path_relative_to_include()}/terraform.tfstate"
     region = "${local.aws_region}"
   }
 
