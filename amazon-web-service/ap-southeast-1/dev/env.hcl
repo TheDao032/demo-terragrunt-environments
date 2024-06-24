@@ -5,7 +5,7 @@ locals {
   aws_account_id = get_env("ACCOUNT_ID")
 
   environment = "dev"
-  azs = ["ap-southeast-1a"]
+  azs = ["ap-southeast-1a", "ap-southeast-1b"]
   vpc_cidr_block = "10.1.0.0/16"
   # cluster_cidr_block = "172.20.0.0/16"
   public_cidr = ["10.1.10.0/24", "10.1.11.0/24"]
