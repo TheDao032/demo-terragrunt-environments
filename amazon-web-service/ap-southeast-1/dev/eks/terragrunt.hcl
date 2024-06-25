@@ -11,30 +11,12 @@ dependency "vpc" {
   config_path = "../vpc"
   mock_outputs = {
     id = "id"
-    # subnet_names = ["name1","name2"]
-    # subnets_secondary_ranges = [
-    #   [
-    #     {
-    #       ip_cidr_range = "10.0.0.1/24"
-    #       range_name = "name1"
-    #     },
-    #     {
-    #       ip_cidr_range = "10.0.0.2/24"
-    #       range_name = "name2"
-    #     },
-    #   ],
-    #   [
-    #     {
-    #       ip_cidr_range = "10.0.0.3/24"
-    #       range_name = "name1"
-    #     },
-    #     {
-    #       ip_cidr_range = "10.0.0.4/24"
-    #       range_name = "name2"
-    #     },
-    #   ]
-    # ]
+    public_subnets = ["name1","name2"]
+    private_subnets = ["name1","name2"]
+    eks_securitygroup = "eks_security_group"
+    eks_node_securitygroup = "eks_node_security_group"
   }
+  mock_outputs_merge_strategy_with_state = "shallow"
 }
 
 terraform {
@@ -44,4 +26,8 @@ terraform {
 
 inputs = {
   vpc_id = dependency.vpc.outputs.id
+  subnets = dependencty.vpc.outputs.public_subnets
+  node_subnets = dependencty.vpc.outputs.private_subnets
+  security_groups = dependency.vpc.outputs.eks_securitygroup
+  node_security_groups = dependency.vpc.outputs.eks_node_securitygroup
 }
