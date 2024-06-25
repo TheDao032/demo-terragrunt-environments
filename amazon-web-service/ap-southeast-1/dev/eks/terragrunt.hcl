@@ -26,8 +26,8 @@ terraform {
 
 inputs = {
   vpc_id = dependency.vpc.outputs.id
-  subnets = dependencty.vpc.outputs.public_subnets
-  node_subnets = dependencty.vpc.outputs.private_subnets
+  subnets = dependency.vpc.outputs.public_subnets
+  node_subnets = dependency.vpc.outputs.private_subnets
   security_groups = dependency.vpc.outputs.eks_securitygroup
   node_security_groups = dependency.vpc.outputs.eks_node_securitygroup
 }
