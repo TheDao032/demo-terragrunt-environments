@@ -1,25 +1,26 @@
 name: Azure pipeline
 
-on:
-  push:
-    branches:
-      - dev
-      - uat
-      - prod
-      # - main
-    tags:
-      - "*"
 # on:
-#   workflow_dispatch:
-#     inputs:
-#       ENV:
-#         description: Environment Trigger Build
-#         required: true
-#         type: choice
-#         options:
-#           - dev
-#           - uat
-#           - prod
+#   push:
+#     branches:
+#       - dev
+#       - uat
+#       - prod
+#       # - main
+#     tags:
+#       - "*"
+
+on:
+  workflow_dispatch:
+    inputs:
+      ENV:
+        description: Environment Trigger Build
+        required: true
+        type: choice
+        options:
+          - dev
+          - uat
+          - prod
 
 
 defaults:
@@ -28,7 +29,7 @@ defaults:
 
 env:
   IMAGE: ${{ github.repository }}
-  ENV: ${{ github.ref_name }}
+  ENV: ${{ github.event.inputs.ENV }}
   # CLOUD_NAME: "google-cloud-platform"
   CLOUD_NAME: "azure"
 
