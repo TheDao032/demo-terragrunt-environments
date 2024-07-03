@@ -64,19 +64,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Azure infrastructure
-        id: azure-build
-        uses: ./.github/actions/azure/build
-        with:
-          CLOUD: "${{ env.CLOUD_NAME }}"
-          ENV: "${{ env.ENV }}"
-          REGION: "${{ vars.REGION }}"
-          AZURE_CREDENTIALS: "${{ secrets.AZURE_CREDENTIALS }}"
-          SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
-
-      - name: Deploy Azure infrastructure
-        id: azure-deploy
-        uses: ./.github/actions/azure/deploy
+      - name: Destroy Azure infrastructure
+        uses: ./.github/actions/azure/destroy
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
           ENV: "${{ env.ENV }}"

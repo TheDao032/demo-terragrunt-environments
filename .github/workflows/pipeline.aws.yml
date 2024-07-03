@@ -58,6 +58,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build AWS infrastructure
+        id: aws-build
         uses: ./.github/actions/aws/build
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"
@@ -69,6 +70,7 @@ jobs:
           SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
 
       - name: Deploy AWS infrastructure
+        id: aws-deploy
         uses: ./.github/actions/aws/deploy
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"

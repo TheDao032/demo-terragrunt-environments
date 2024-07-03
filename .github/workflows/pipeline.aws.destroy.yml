@@ -50,6 +50,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Destroy AWS infrastructure
+        id: aws-destroy
         uses: ./.github/actions/aws/destroy
         with:
           CLOUD: "${{ env.CLOUD_NAME }}"

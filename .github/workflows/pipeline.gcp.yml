@@ -68,10 +68,12 @@ jobs:
           GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
           SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
 
-      # - name: Deploy GCP infrastructure
-      #   id: gcp-deploy
-      #   uses: ./.github/actions/gcp/deploy
-      #   with:
-      #     CLOUD: "${{ env.CLOUD_NAME }}"
-      #     ENV: "${{ env.ENV }}"
-      #     REGION: "${{ vars.REGION }}"
+      - name: Deploy GCP infrastructure
+        id: gcp-deploy
+        uses: ./.github/actions/gcp/deploy
+        with:
+          CLOUD: "${{ env.CLOUD_NAME }}"
+          ENV: "${{ env.ENV }}"
+          REGION: "${{ vars.REGION }}"
+          GOOGLE_CREDENTIALS: "${{ secrets.GOOGLE_CREDENTIALS }}"
+          SSH_PRIVATE_KEY: "${{ secrets.SSH_PRIVATE_KEY }}"
