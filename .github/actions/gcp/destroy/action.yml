@@ -1,25 +1,19 @@
-name: AWS Detroy
-description: AWS Detroy
+name: GCP Detroy
+description: GCP Detroy
 
 inputs:
-  ACCOUNT_ID:
-    required: true
-    description: Aws Account ID
-  AWS_ACCESS_KEY_ID:
-    required: true
-    description: Aws Access Key ID
-  AWS_ACCESS_SECRET_KEY:
-    required: true
-    description: Aws Access Secret Key
   CLOUD:
     required: true
-    description: Aws Cloud
+    description: GCP Cloud
   ENV:
     required: true
-    description: Aws Env
+    description: GCP Environment
   REGION:
     required: true
-    description: Aws Region
+    description: GCP Region
+  GOOGLE_CREDENTIALS:
+    required: true
+    description: GCP Credentails
   SSH_PRIVATE_KEY:
     required: true
     description: SSH Private Key
@@ -27,22 +21,26 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
       with:
-        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ inputs.AWS_ACCESS_SECRET_KEY }}
-        aws-region: ${{ inputs.REGION }}
-        role-to-assume: arn:aws:iam::${{ inputs.ACCOUNT_ID }}:role/${{ inputs.ENV }}-access
-        role-duration-seconds: 3600
-        role-session-name: github
+        version: '>= 363.0.0'
 
-    - name: AWS Setup
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: ${{ inputs.GOOGLE_CREDENTIALS }}
+        # project_id: '${{ inputs.PROJECT_ID }}'
+        # workload_identity_provider: 'projects/${{ inputs.PROJECT_ID }}/locations/global/workloadIdentityPools/${{ inputs.POOL }}/providers/${{ inputs.PROVIDER }}'
+        # service_account: '${{ inputs.SERVICE_ACCOUNT }}'
+
+    - name: GCP Setup
+      id: gcp-setup
       shell: bash
-      id: aws-setup
       run: |
         mkdir -p /home/runner/work/_temp/_github_workflow
-        mv terragrunt.aws.hcl terragrunt.hcl
+        mv terragrunt.gcp.hcl terragrunt.hcl
+        gcloud info
 
     - uses: webfactory/ssh-agent@v0.7.0
       with:
